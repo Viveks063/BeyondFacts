@@ -41,13 +41,16 @@ class PosterRenderer:
         category_style = ThemeSystem.get_category_style(category)
         
         total_slides = len(data.get("slides", []))
+        slide_text = slide.get("content", slide.get("text", ""))
+        slide_title = slide.get("title", slide.get("type", ""))
 
         context = {
             "category": category,
             "slide_index": slide_index,
             "total_slides": total_slides,
             "slide_type": slide.get("type", "fact"),
-            "slide_text": slide.get("text", ""),
+            "slide_text": slide_text,
+            "slide_title": slide_title,
             "theme": theme,
             "category_style": category_style
         }

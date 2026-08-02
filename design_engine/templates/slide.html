@@ -29,7 +29,6 @@
             border-radius: 28px;
         }
 
-        /* Subtle smooth text balance */
         h1, h2, p {
             text-wrap: balance;
         }
@@ -56,45 +55,51 @@
     <!-- Main Content Area -->
     <div class="relative z-10 my-auto flex flex-col justify-center gap-12 max-w-[940px] mx-auto w-full">
         
-        {% if slide_type == 'hook' %}
+        {% if slide_index == 1 %}
             <div class="flex flex-col gap-6">
-                <span class="text-sm font-bold tracking-widest uppercase opacity-40 {{ theme.text_secondary }}">
-                    DID YOU KNOW?
+                <span class="text-xs font-bold tracking-widest uppercase opacity-40 {{ theme.text_secondary }}">
+                    {{ slide_title if slide_title else "DID YOU KNOW?" }}
                 </span>
-                <h1 class="serif-font font-normal leading-[1.12] text-[82px] tracking-tight {{ theme.text_primary }}">
+                <h1 class="serif-font font-normal leading-[1.12] text-[78px] tracking-tight {{ theme.text_primary }}">
                     {{ slide_text }}
                 </h1>
             </div>
 
-        {% elif slide_type == 'fact' %}
+        {% elif slide_index == 2 %}
             <div class="p-12 soft-card {{ theme.card_class }} flex flex-col gap-6">
-                <p class="serif-font italic text-[58px] leading-[1.22] font-normal {{ theme.text_primary }}">
+                <span class="text-xs font-bold tracking-widest uppercase opacity-50 {{ theme.text_secondary }}">
+                    {{ slide_title if slide_title else "THE UNBELIEVABLE FACT" }}
+                </span>
+                <p class="serif-font italic text-[54px] leading-[1.22] font-normal {{ theme.text_primary }}">
                     “{{ slide_text }}”
                 </p>
             </div>
 
-        {% elif slide_type == 'explanation' %}
+        {% elif slide_index == 3 %}
             <div class="flex flex-col gap-8 px-2">
                 <span class="text-xs font-bold tracking-widest uppercase opacity-40 {{ theme.text_secondary }}">
-                    THE REASON WHY
+                    {{ slide_title if slide_title else "THE REASON WHY" }}
                 </span>
-                <p class="text-[44px] font-normal leading-[1.4] tracking-tight {{ theme.text_primary }}">
+                <p class="text-[42px] font-normal leading-[1.4] tracking-tight {{ theme.text_primary }}">
                     {{ slide_text }}
                 </p>
             </div>
 
-        {% elif slide_type == 'engagement' %}
+        {% elif slide_index == 4 %}
             <div class="flex flex-col items-center text-center gap-8 py-6">
                 <div class="w-16 h-16 rounded-full flex items-center justify-center {{ theme.badge_bg }} mb-2">
                     <i data-lucide="message-square" class="w-8 h-8 opacity-60"></i>
                 </div>
-                <h2 class="serif-font font-normal leading-[1.18] text-[68px] tracking-tight {{ theme.text_primary }}">
+                <span class="text-xs font-bold tracking-widest uppercase opacity-40 {{ theme.text_secondary }}">
+                    {{ slide_title if slide_title else "WHAT DO YOU THINK?" }}
+                </span>
+                <h2 class="serif-font font-normal leading-[1.18] text-[64px] tracking-tight {{ theme.text_primary }}">
                     {{ slide_text }}
                 </h2>
             </div>
 
         {% else %}
-            <p class="text-[48px] font-normal leading-[1.35] {{ theme.text_primary }}">
+            <p class="text-[46px] font-normal leading-[1.35] {{ theme.text_primary }}">
                 {{ slide_text }}
             </p>
         {% endif %}
