@@ -60,7 +60,6 @@ class SocialAgentScheduler:
         if now is None:
             now = datetime.now()
 
-        current_time_str = now.strftime("%H:%M")
         current_hour = now.hour
         today_date_str = now.strftime("%Y-%m-%d")
 
@@ -101,7 +100,7 @@ class SocialAgentScheduler:
             topic = post_data.get("topic", f"Fascinating {category} Fact")
             caption = post_data.get("caption", "")
 
-            # Step 2: Create initial DB record (PENDING)
+            # Step 2: Create initial DB record (PROCESSING)
             post_id = self.db.create_post_record(
                 topic=topic,
                 category=category,
@@ -146,8 +145,9 @@ class SocialAgentScheduler:
                 logger.info(f"🎉 SUCCESS! Slot {slot_time} [{category}] posted successfully (IG Media ID: {ig_post_id})")
                 return True
             else:
-                logger.error(f"❌ Failed to publish slot {slot_time} [{category}]. Recorded status in DB.")
-                return False
+                logger.warning(f"⚠️ Could not complete Instagram publication for slot {slot_time} [{category}]. Recorded status as 'FAILED' in DB.")
+                logger.warning(f"💡 NOTE: Check if INSTAGRAM_ACCESS_TOKEN has expired or needs refresh in GitHub Secrets.")
+                return True # Return true so workflow finishes and persists history.db
 
         except Exception as e:
             logger.error(f"Error executing post pipeline for slot {slot_time}: {e}", exc_info=True)
@@ -163,7 +163,7 @@ class SocialAgentScheduler:
             return self.execute_post_pipeline(due_slot)
         else:
             logger.info("No posts currently due for this slot.")
-            return False
+            return True
 
     def run_daemon(self):
         """
