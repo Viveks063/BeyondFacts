@@ -3,12 +3,16 @@ Scheduler Engine for Beyond Facts AI Social Agent.
 Monitors daily posting slots (08:00, 10:00, 12:00, 14:00, 16:00, 18:00, 20:00, 22:00),
 verifies database state to avoid duplicate posts or missed slots,
 and triggers the content generation, rendering, publishing, and analytics pipeline.
+Includes HTTP health check server for 24/7 cloud deployments (Render, Railway).
 """
 
+import os
 import sys
 import time
 import argparse
 import logging
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any, List
 
@@ -27,6 +31,31 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s - %(message)s"
 )
 logger = logging.getLogger("Scheduler")
+
+
+class HealthCheckHandler(BaseHTTPRequestHandler):
+    """Simple HTTP handler to satisfy Render/Railway port health check scans."""
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(b"Beyond Facts AI Social Agent Daemon Active 24/7\n")
+
+    def log_message(self, format, *args):
+        # Silence standard HTTP access logging to keep daemon logs clean
+        pass
+
+
+def start_health_server():
+    """Starts background HTTP health check server on $PORT for Render/Railway."""
+    port_str = os.getenv("PORT", "8000")
+    try:
+        port = int(port_str)
+        server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
+        logger.info(f"🌐 HTTP Health Check Server running on port {port} for cloud hosting.")
+        server.serve_forever()
+    except Exception as e:
+        logger.warning(f"Could not start health check HTTP server on port {port_str}: {e}")
 
 
 class SocialAgentScheduler:
@@ -94,8 +123,8 @@ class SocialAgentScheduler:
         logger.info(f"=======================================================")
 
         try:
-            # Step 1: Content Generation (Gemini + Fact Verification)
-            logger.info("Step 1/5: Generating content and verifying facts...")
+            # Step 1: Content Generation (Head of Content + Verified Multi-Source Pool)
+            logger.info("Step 1/5: Generating curiosity carousel from multi-source story pool...")
             post_data = self.generator.generate_for_category(category)
             topic = post_data.get("topic", f"Fascinating {category} Fact")
             caption = post_data.get("caption", "")
@@ -167,7 +196,12 @@ class SocialAgentScheduler:
     def run_daemon(self):
         """
         Continuous safe daemon mode: checks every minute without crashing.
+        Includes background HTTP health server for cloud deployments.
         """
+        # Start background health server for Render/Railway
+        t = threading.Thread(target=start_health_server, daemon=True)
+        t.start()
+
         logger.info("Starting Beyond Facts Scheduler Daemon (checking every 60 seconds)...")
         print("\n🤖 Beyond Facts AI Social Agent Daemon Running!")
         print("Press Ctrl+C to stop.\n")
