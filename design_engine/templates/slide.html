@@ -8,122 +8,114 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
             padding: 0;
             width: 1080px;
             height: 1350px;
             overflow: hidden;
+            letter-spacing: -0.01em;
         }
 
-        .heading-font {
-            font-family: 'Outfit', sans-serif;
+        .serif-font {
+            font-family: 'Newsreader', Georgia, serif;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .soft-card {
+            border-radius: 28px;
         }
 
-        .glass-card-light {
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-
-        .glow-effect {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.25;
-            pointer-events: none;
+        /* Subtle smooth text balance */
+        h1, h2, p {
+            text-wrap: balance;
         }
     </style>
 </head>
-<body class="{{ theme.body_class }} relative flex flex-col justify-between p-16 box-border selection:bg-none">
+<body class="{{ theme.body_class }} relative flex flex-col justify-between p-20 box-border selection:bg-none">
 
-    <!-- Background Ambient Glow Accents -->
-    <div class="glow-effect -top-32 -left-32 {{ category_style.glow_bg }}"></div>
-    <div class="glow-effect -bottom-32 -right-32 {{ theme.accent_glow }}"></div>
-
-    <!-- Header / Category Badge -->
+    <!-- Header / Minimalist Brand Badge & Counter -->
     <div class="relative z-10 flex items-center justify-between">
-        <div class="flex items-center gap-3 px-6 py-3 rounded-full {{ theme.badge_bg }} border {{ theme.border_color }} shadow-sm">
-            <i data-lucide="{{ category_style.icon }}" class="w-6 h-6 {{ category_style.icon_color }}"></i>
-            <span class="text-xs font-bold tracking-widest uppercase {{ theme.text_secondary }}">
-                {{ category }}
+        <div class="flex items-center gap-3">
+            <span class="px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase {{ theme.badge_bg }} {{ theme.text_secondary }}">
+                {{ category_style.label }}
+            </span>
+            <span class="text-xs font-medium tracking-widest uppercase opacity-40 {{ theme.text_secondary }}">
+                • {{ category_style.tag }}
             </span>
         </div>
-        <div class="text-sm font-semibold tracking-wider uppercase opacity-60 {{ theme.text_secondary }}">
-            Slide {{ slide_index }}/{{ total_slides }}
+
+        <div class="text-sm font-semibold tracking-widest uppercase opacity-50 {{ theme.text_secondary }}">
+            0{{ slide_index }} / 0{{ total_slides }}
         </div>
     </div>
 
     <!-- Main Content Area -->
-    <div class="relative z-10 my-auto flex flex-col justify-center gap-10">
+    <div class="relative z-10 my-auto flex flex-col justify-center gap-12 max-w-[940px] mx-auto w-full">
         
         {% if slide_type == 'hook' %}
-            <h1 class="heading-font font-extrabold tracking-tight leading-[1.1] text-7xl {{ theme.text_primary }}">
-                {{ slide_text }}
-            </h1>
+            <div class="flex flex-col gap-6">
+                <span class="text-sm font-bold tracking-widest uppercase opacity-40 {{ theme.text_secondary }}">
+                    DID YOU KNOW?
+                </span>
+                <h1 class="serif-font font-normal leading-[1.12] text-[82px] tracking-tight {{ theme.text_primary }}">
+                    {{ slide_text }}
+                </h1>
+            </div>
+
         {% elif slide_type == 'fact' %}
-            <div class="p-10 rounded-3xl {{ theme.card_class }} shadow-2xl relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-2 h-full {{ category_style.accent_line }}"></div>
-                <p class="text-5xl font-medium leading-relaxed {{ theme.text_primary }}">
-                    {{ slide_text }}
+            <div class="p-12 soft-card {{ theme.card_class }} flex flex-col gap-6">
+                <p class="serif-font italic text-[58px] leading-[1.22] font-normal {{ theme.text_primary }}">
+                    “{{ slide_text }}”
                 </p>
             </div>
+
         {% elif slide_type == 'explanation' %}
-            <div class="flex items-start gap-6 px-4">
-                <div class="p-4 rounded-xl {{ theme.badge_bg }} mt-1">
-                    <i data-lucide="sparkles" class="w-8 h-8 {{ category_style.icon_color }}"></i>
-                </div>
-                <p class="text-4xl font-normal leading-relaxed {{ theme.text_secondary }}">
+            <div class="flex flex-col gap-8 px-2">
+                <span class="text-xs font-bold tracking-widest uppercase opacity-40 {{ theme.text_secondary }}">
+                    THE REASON WHY
+                </span>
+                <p class="text-[44px] font-normal leading-[1.4] tracking-tight {{ theme.text_primary }}">
                     {{ slide_text }}
                 </p>
             </div>
+
         {% elif slide_type == 'engagement' %}
-            <h2 class="heading-font font-bold tracking-tight leading-[1.2] text-6xl text-center {{ theme.text_primary }}">
-                {{ slide_text }}
-            </h2>
+            <div class="flex flex-col items-center text-center gap-8 py-6">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center {{ theme.badge_bg }} mb-2">
+                    <i data-lucide="message-square" class="w-8 h-8 opacity-60"></i>
+                </div>
+                <h2 class="serif-font font-normal leading-[1.18] text-[68px] tracking-tight {{ theme.text_primary }}">
+                    {{ slide_text }}
+                </h2>
+            </div>
+
         {% else %}
-            <p class="text-5xl font-medium leading-relaxed {{ theme.text_primary }}">
+            <p class="text-[48px] font-normal leading-[1.35] {{ theme.text_primary }}">
                 {{ slide_text }}
             </p>
         {% endif %}
 
     </div>
 
-    <!-- Footer Branding Area -->
+    <!-- Footer Minimal Brand Bar -->
     <div class="relative z-10 pt-10 border-t {{ theme.border_color }} flex items-center justify-between">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-2xl flex items-center justify-center font-black text-2xl shadow-lg {{ category_style.logo_bg }} text-white">
-                B
-            </div>
-            <div class="flex flex-col">
-                <span class="heading-font text-2xl font-bold tracking-tight {{ theme.text_primary }}">Beyond Facts</span>
-                <span class="text-xs font-semibold tracking-widest uppercase opacity-50 {{ theme.text_secondary }}">Verified Knowledge</span>
-            </div>
+        <div class="flex items-center gap-3">
+            <span class="serif-font italic text-3xl font-semibold tracking-tight {{ theme.text_primary }}">Beyond Facts.</span>
+            <span class="text-xs font-medium tracking-widest uppercase opacity-40 {{ theme.text_secondary }}">Curiosity Journal</span>
         </div>
 
         {% if slide_index < total_slides %}
-            <div class="flex items-center gap-3 px-6 py-3 rounded-2xl {{ theme.badge_bg }} border {{ theme.border_color }} opacity-80">
-                <span class="text-base font-bold {{ theme.text_primary }}">Swipe</span>
-                <i data-lucide="arrow-right" class="w-5 h-5 {{ category_style.icon_color }}"></i>
+            <div class="flex items-center gap-2 text-sm font-semibold tracking-wider uppercase opacity-70 {{ theme.text_primary }}">
+                <span>SWIPE</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </div>
         {% else %}
-            <div class="flex items-center gap-3 px-6 py-3 rounded-2xl {{ theme.badge_bg }} border {{ theme.border_color }}">
-                <i data-lucide="instagram" class="w-5 h-5 {{ category_style.icon_color }}"></i>
-                <span class="text-base font-bold {{ theme.text_primary }}">Follow @BeyondFacts</span>
+            <div class="flex items-center gap-2 text-sm font-semibold tracking-wider uppercase opacity-70 {{ theme.text_primary }}">
+                <span>@BEYONDFACTS</span>
             </div>
         {% endif %}
     </div>

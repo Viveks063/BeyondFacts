@@ -1,133 +1,78 @@
-import random
+"""
+Design System Theme Definitions for Beyond Facts.
+Minimalist, Soft, Editorial aesthetics.
+"""
+
 from typing import Dict, Any, Optional
+import random
 
 class ThemeSystem:
-    """Design System Theme Definitions for Beyond Facts Posters."""
+    """Soft, Minimal, & Editorial Design System Themes."""
 
     THEMES: Dict[str, Dict[str, str]] = {
-        "dark_glass": {
-            "name": "Dark Glass",
-            "body_class": "bg-[#0B0F17] text-white",
-            "card_class": "glass-card text-white",
-            "badge_bg": "bg-white/5",
-            "border_color": "border-white/10",
-            "text_primary": "text-white",
-            "text_secondary": "text-slate-300",
-            "accent_glow": "bg-indigo-600"
+        "soft_oat": {
+            "name": "Soft Oat",
+            "body_class": "bg-[#F9F8F3] text-[#1F1F1F]",
+            "card_class": "bg-[#F2F0E8] border border-black/[0.04] text-[#1F1F1F]",
+            "badge_bg": "bg-black/[0.04]",
+            "border_color": "border-black/[0.06]",
+            "text_primary": "text-[#1F1F1F]",
+            "text_secondary": "text-[#666460]",
+            "accent_pill": "bg-[#E8E5DC] text-[#2C2B29]"
         },
-        "white_minimal": {
-            "name": "White Minimal",
-            "body_class": "bg-[#F8FAFC] text-slate-900",
-            "card_class": "glass-card-light text-slate-900 shadow-xl",
-            "badge_bg": "bg-slate-200/60",
-            "border_color": "border-slate-300/80",
-            "text_primary": "text-slate-950",
-            "text_secondary": "text-slate-600",
-            "accent_glow": "bg-sky-400"
+        "minimal_graphite": {
+            "name": "Minimal Graphite",
+            "body_class": "bg-[#141416] text-[#F3F3F1]",
+            "card_class": "bg-[#1E1E22] border border-white/[0.06] text-[#F3F3F1]",
+            "badge_bg": "bg-white/[0.06]",
+            "border_color": "border-white/[0.08]",
+            "text_primary": "text-[#F3F3F1]",
+            "text_secondary": "text-[#A0A0A6]",
+            "accent_pill": "bg-[#28282E] text-[#F3F3F1]"
         },
-        "blue_gradient": {
-            "name": "Blue Gradient",
-            "body_class": "bg-gradient-to-br from-[#0A192F] via-[#0F2A4A] to-[#020C1B] text-white",
-            "card_class": "glass-card text-white border-cyan-500/20",
-            "badge_bg": "bg-cyan-500/10",
-            "border_color": "border-cyan-500/30",
-            "text_primary": "text-white",
-            "text_secondary": "text-cyan-100",
-            "accent_glow": "bg-cyan-500"
+        "soft_sage": {
+            "name": "Nordic Sage",
+            "body_class": "bg-[#F0F4F2] text-[#1C2A26]",
+            "card_class": "bg-[#E5ECE9] border border-black/[0.04] text-[#1C2A26]",
+            "badge_bg": "bg-black/[0.04]",
+            "border_color": "border-black/[0.06]",
+            "text_primary": "text-[#1C2A26]",
+            "text_secondary": "text-[#556963]",
+            "accent_pill": "bg-[#DAE4E0] text-[#1C2A26]"
         },
-        "purple_neon": {
-            "name": "Purple Neon",
-            "body_class": "bg-[#0F0728] text-white",
-            "card_class": "glass-card text-white border-purple-500/20",
-            "badge_bg": "bg-purple-500/10",
-            "border_color": "border-purple-500/30",
-            "text_primary": "text-white",
-            "text_secondary": "text-purple-200",
-            "accent_glow": "bg-fuchsia-600"
+        "warm_linen": {
+            "name": "Warm Linen",
+            "body_class": "bg-[#F7F3EE] text-[#2B231F]",
+            "card_class": "bg-[#EDE6DE] border border-black/[0.04] text-[#2B231F]",
+            "badge_bg": "bg-black/[0.04]",
+            "border_color": "border-black/[0.06]",
+            "text_primary": "text-[#2B231F]",
+            "text_secondary": "text-[#6E635C]",
+            "accent_pill": "bg-[#E2D8CC] text-[#2B231F]"
         },
-        "gold_luxury": {
-            "name": "Gold Luxury",
-            "body_class": "bg-[#0D0B07] text-amber-50",
-            "card_class": "glass-card text-amber-50 border-amber-500/20",
-            "badge_bg": "bg-amber-500/10",
-            "border_color": "border-amber-500/30",
-            "text_primary": "text-amber-50",
-            "text_secondary": "text-amber-200/80",
-            "accent_glow": "bg-amber-600"
+        "editorial_white": {
+            "name": "Editorial White",
+            "body_class": "bg-[#FAFAFA] text-[#111111]",
+            "card_class": "bg-[#F1F1F1] border border-black/[0.05] text-[#111111]",
+            "badge_bg": "bg-black/[0.04]",
+            "border_color": "border-black/[0.08]",
+            "text_primary": "text-[#111111]",
+            "text_secondary": "text-[#555555]",
+            "accent_pill": "bg-[#E5E5E5] text-[#111111]"
         }
     }
 
     CATEGORY_STYLES: Dict[str, Dict[str, str]] = {
-        "Psychology": {
-            "icon": "brain",
-            "icon_color": "text-purple-400",
-            "glow_bg": "bg-purple-600",
-            "accent_line": "bg-purple-500",
-            "logo_bg": "bg-gradient-to-br from-purple-500 to-indigo-600"
-        },
-        "Did You Know?": {
-            "icon": "sparkles",
-            "icon_color": "text-amber-400",
-            "glow_bg": "bg-amber-500",
-            "accent_line": "bg-amber-400",
-            "logo_bg": "bg-gradient-to-br from-amber-400 to-orange-500"
-        },
-        "Science": {
-            "icon": "atom",
-            "icon_color": "text-sky-400",
-            "glow_bg": "bg-sky-600",
-            "accent_line": "bg-sky-400",
-            "logo_bg": "bg-gradient-to-br from-sky-400 to-blue-600"
-        },
-        "History": {
-            "icon": "scroll",
-            "icon_color": "text-amber-600",
-            "glow_bg": "bg-amber-800",
-            "accent_line": "bg-amber-600",
-            "logo_bg": "bg-gradient-to-br from-amber-600 to-yellow-800"
-        },
-        "Cars": {
-            "icon": "gauge",
-            "icon_color": "text-rose-500",
-            "glow_bg": "bg-rose-600",
-            "accent_line": "bg-rose-500",
-            "logo_bg": "bg-gradient-to-br from-rose-500 to-red-700"
-        },
-        "Space": {
-            "icon": "globe",
-            "icon_color": "text-indigo-400",
-            "glow_bg": "bg-indigo-600",
-            "accent_line": "bg-indigo-400",
-            "logo_bg": "bg-gradient-to-br from-indigo-500 to-purple-800"
-        },
-        "Geography": {
-            "icon": "compass",
-            "icon_color": "text-teal-400",
-            "glow_bg": "bg-teal-600",
-            "accent_line": "bg-teal-400",
-            "logo_bg": "bg-gradient-to-br from-teal-400 to-emerald-600"
-        },
-        "Animals": {
-            "icon": "leaf",
-            "icon_color": "text-emerald-400",
-            "glow_bg": "bg-emerald-600",
-            "accent_line": "bg-emerald-400",
-            "logo_bg": "bg-gradient-to-br from-emerald-400 to-green-600"
-        },
-        "Technology": {
-            "icon": "cpu",
-            "icon_color": "text-cyan-400",
-            "glow_bg": "bg-cyan-600",
-            "accent_line": "bg-cyan-400",
-            "logo_bg": "bg-gradient-to-br from-cyan-400 to-blue-600"
-        },
-        "Money & Business": {
-            "icon": "trending-up",
-            "icon_color": "text-emerald-500",
-            "glow_bg": "bg-emerald-600",
-            "accent_line": "bg-emerald-500",
-            "logo_bg": "bg-gradient-to-br from-emerald-500 to-teal-700"
-        }
+        "Psychology": {"label": "Psychology", "tag": "MENTAL MODEL"},
+        "Cars": {"label": "Automotive", "tag": "DESIGN & ENGINEERING"},
+        "History": {"label": "History", "tag": "ARCHIVE"},
+        "Science": {"label": "Science", "tag": "DISCOVERY"},
+        "Animals": {"label": "Nature", "tag": "WILDLIFE"},
+        "Money": {"label": "Economics", "tag": "CAPITAL"},
+        "Space": {"label": "Cosmos", "tag": "ASTROPHYSICS"},
+        "Random": {"label": "Curiosity", "tag": "UNCOVERED"},
+        "Did You Know?": {"label": "Curiosity", "tag": "FACT"},
+        "Technology": {"label": "Technology", "tag": "FUTURE"}
     }
 
     @classmethod
@@ -138,4 +83,4 @@ class ThemeSystem:
 
     @classmethod
     def get_category_style(cls, category: str) -> Dict[str, str]:
-        return cls.CATEGORY_STYLES.get(category, cls.CATEGORY_STYLES["Did You Know?"])
+        return cls.CATEGORY_STYLES.get(category, {"label": category, "tag": "INSIGHT"})
