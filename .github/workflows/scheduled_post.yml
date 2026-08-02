@@ -12,6 +12,10 @@ on:
         required: false
         default: ''
 
+# Explicitly grant Write permission to GITHUB_TOKEN for pushing database updates
+permissions:
+  contents: write
+
 jobs:
   run-scheduled-post:
     runs-on: ubuntu-latest
@@ -19,6 +23,8 @@ jobs:
     steps:
       - name: Checkout Codebase
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
