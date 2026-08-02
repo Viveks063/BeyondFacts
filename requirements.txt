@@ -5,3 +5,4 @@ pillow
 feedparser
 playwright
 cloudinary
+jinja2
