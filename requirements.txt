@@ -1,0 +1,7 @@
+google-genai
+requests
+python-dotenv
+pillow
+feedparser
+playwright
+cloudinary

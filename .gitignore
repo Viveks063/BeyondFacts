@@ -1,0 +1,8 @@
+.env
+venv/
+__pycache__/
+*.pyc
+design_engine/generated/
+*.jpg
+*.png
+.DS_Store
