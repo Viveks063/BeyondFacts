@@ -1,20 +1,19 @@
 services:
-  - type: cron
-    name: beyond-facts-cron
+  - type: worker
+    name: beyond-facts-agent
     env: python
-    schedule: "0 */2 * * *"
-    buildCommand: "pip install -r requirements.txt && playwright install --with-deps chromium"
-    startCommand: "python scheduler.py --check"
+    buildCommand: pip install -r requirements.txt && python -m playwright install --with-deps chromium
+    startCommand: python scheduler.py --daemon
     envVars:
       - key: GEMINI_API_KEY
+        sync: false
+      - key: INSTAGRAM_ACCESS_TOKEN
+        sync: false
+      - key: INSTAGRAM_BUSINESS_ID
         sync: false
       - key: CLOUDINARY_CLOUD_NAME
         sync: false
       - key: CLOUDINARY_API_KEY
         sync: false
       - key: CLOUDINARY_API_SECRET
-        sync: false
-      - key: INSTAGRAM_ACCESS_TOKEN
-        sync: false
-      - key: INSTAGRAM_BUSINESS_ID
         sync: false
