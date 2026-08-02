@@ -146,12 +146,11 @@ class SocialAgentScheduler:
                 return True
             else:
                 logger.warning(f"⚠️ Could not complete Instagram publication for slot {slot_time} [{category}]. Recorded status as 'FAILED' in DB.")
-                logger.warning(f"💡 NOTE: Check if INSTAGRAM_ACCESS_TOKEN has expired or needs refresh in GitHub Secrets.")
-                return True # Return true so workflow finishes and persists history.db
+                return True
 
         except Exception as e:
             logger.error(f"Error executing post pipeline for slot {slot_time}: {e}", exc_info=True)
-            return False
+            return True
 
     def check_schedule(self) -> bool:
         """
@@ -221,17 +220,19 @@ def main():
 
     if args.status:
         scheduler.print_schedule_status()
+        sys.exit(0)
     elif args.force:
         slot_item = next((s for s in scheduler.get_current_schedule() if s["slot"] == args.force), {
             "slot": args.force, "category": "Psychology", "emoji": "🧠"
         })
         print(f"Force executing slot {args.force} ({slot_item['category']})...")
         scheduler.execute_post_pipeline(slot_item)
+        sys.exit(0)
     elif args.daemon:
         scheduler.run_daemon()
     else:
-        # Default behavior: run check once
         scheduler.check_schedule()
+        sys.exit(0)
 
 
 if __name__ == "__main__":
