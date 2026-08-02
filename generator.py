@@ -23,9 +23,16 @@ class ContentGenerator:
 
     def __init__(self):
         gemini_key = os.getenv("GEMINI_API_KEY")
-        if not gemini_key:
-            raise ValueError("GEMINI_API_KEY is not set in environment.")
-        self.client = genai.Client(api_key=gemini_key)
+        if gemini_key:
+            try:
+                self.client = genai.Client(api_key=gemini_key)
+            except Exception as e:
+                logger.warning(f"Could not initialize Gemini Client: {e}. Will use verified fallbacks.")
+                self.client = None
+        else:
+            logger.warning("GEMINI_API_KEY not set in environment. Will use verified fallback posts.")
+            self.client = None
+
         self.trend_agent = TrendResearchAgent()
         self.verifier_agent = FactVerifierAgent()
 
@@ -38,6 +45,10 @@ class ContentGenerator:
         # If Random / Did You Know, pick a dynamic category
         if target_category in ["Random", "Did You Know?", "General"]:
             target_category = "Psychology"
+
+        if not self.client:
+            logger.info(f"Using pre-verified content fallback for category '{target_category}'.")
+            return self._get_fallback_post(target_category)
 
         prompt = f"""
 You are the Lead Editor for "Beyond Facts", a premium educational curiosity brand on Instagram.

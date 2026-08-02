@@ -12,7 +12,6 @@ on:
         required: false
         default: ''
 
-# Explicitly grant Write permission to GITHUB_TOKEN for pushing database updates
 permissions:
   contents: write
 
@@ -24,6 +23,7 @@ jobs:
       - name: Checkout Codebase
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
@@ -36,7 +36,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          playwright install --with-deps chromium
+          python -m playwright install --with-deps chromium
 
       - name: Execute Schedule Check & Post
         env:
@@ -62,4 +62,4 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add history.db
           git diff --quiet && git diff --staged --quiet || git commit -m "update: sync history.db after scheduled post run"
-          git push
+          git push origin main
