@@ -84,7 +84,7 @@ class SocialAgentScheduler:
     def find_due_slot(self, now: Optional[datetime] = None) -> Optional[Dict[str, str]]:
         """
         Checks if there is a scheduled post due right now that has NOT been posted today.
-        Matches time slots within a grace window (e.g. current hour/slot).
+        Matches the most recent passed time slot to handle sleeping servers or delayed starts.
         """
         if now is None:
             now = datetime.now()
@@ -94,18 +94,23 @@ class SocialAgentScheduler:
 
         schedule = self.get_current_schedule()
 
+        # Find the most recent slot that has already passed
+        most_recent_slot = None
         for slot_item in schedule:
             slot_time = slot_item["slot"]
             slot_hour = int(slot_time.split(":")[0])
+            
+            if slot_hour <= current_hour:
+                most_recent_slot = slot_item
 
-            # Slot is due if current hour matches slot_hour AND post has not been made today for this slot
-            if current_hour == slot_hour:
-                is_already_posted = self.db.is_slot_posted_today(slot_time, date_str=today_date_str)
-                if not is_already_posted:
-                    logger.info(f"📍 Post DUE detected for slot {slot_time} ({slot_item['category']})!")
-                    return slot_item
-                else:
-                    logger.debug(f"Slot {slot_time} ({slot_item['category']}) already processed today.")
+        if most_recent_slot:
+            slot_time = most_recent_slot["slot"]
+            is_already_posted = self.db.is_slot_posted_today(slot_time, date_str=today_date_str)
+            if not is_already_posted:
+                logger.info(f"📍 Post DUE detected for slot {slot_time} ({most_recent_slot['category']})!")
+                return most_recent_slot
+            else:
+                logger.debug(f"Slot {slot_time} ({most_recent_slot['category']}) already processed today.")
 
         return None
 
